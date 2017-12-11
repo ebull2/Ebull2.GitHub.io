@@ -1,0 +1,38 @@
+
+
+body {
+ font-family: arial, sans-serif;
+ font-style: normal;
+ margin: 0;
+ padding: 0;
+} 
+
+header{
+  background-color: rgb(74, 75, 76);
+  width: 100%;
+  color: rgb(255, 255, 255);
+  padding: 20px;
+  text-align: center;
+}
+
+p{
+  width: 100%
+  color: #333333
+  padding: 20px;
+  text-align: center;
+
+}
+
+#canvasContainer{
+  margin: 0px auto;
+  width: 594px;
+
+}
+
+footer{
+  background-color: rgb(74, 75, 76);
+  width: 100%;
+  color: rgb(255, 255, 255);
+  padding: 20px;
+  text-align: center;
+}
