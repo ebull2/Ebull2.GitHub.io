@@ -1,86 +1,77 @@
-
-let r = 255;
-let g = 255;
-let b = 255; // these control the RGB function I will be using to determine the stroke colour.
-
- var inc  = 0.1; //this determines the
- var scl = 10; //The scale is the ratio of size to width.
- var cols, rows; //this is for the amount of columns and rows the perlin noise will need to hold the particles.
- var zoff = 0; //this makes a 3rd dimension which chops up the x and y dimension throughout time.
-
- var fr;
-
- var particles = [];
-
- var flowfield; //the flowfield is what determines the
-
- function setup () {
-   var canvas = createCanvas (594, 841);
-   canvas.parent("canvasContainer");
-   cols = floor(width / scl);
-   rows = floor(height / scl);
-   fr = createP('')
-
-   flowfield = new Array(cols * rows); //this makes sure that the array
-
-   for (var i = 0; i < 2000; i++) { //this determines the amount of particles are displayed in the canvas.
-
-   particles[i] = new Particles(); //this is the function to draw out the particles.
+//http://api.openweathermap.org
 
 
-    }
+let locationArray = ["Plymouth, GB", "Soorts-Hossegor, FR", "Peniche, PT", "Gold Coast, AU", "California, US", "Jeffreys Bay, ZA"]; //Array of locations I will be using.
+let randomLocation;
+let apiKey = "6b4a465ac9894c63172283b3f271c20c"; //apiKey of the source i will be colecting the data from.
+let weather;
+let length;
+let sel;
+let selValue;
 
+//These are the values of how the viusalisation will take place.
+var xspacing = 5;    // Distance between each horizontal location
+var w;                // Width of entire wave
+var theta = 0.0;
+var amplitude = 200.0; // Height of wave
+var period = 500.0;   // How many pixels before the wave repeats
+var dx;               // Value for incrementing x
+var yvalues;  // Using an array to store height values for the wave
+
+
+
+
+function preload() {
+  //randomLocation stores just one city that is returned from the locationArray
+  randomLocation = locationArray[round(random(locationArray.length-1))]; //This will return the location back to it's previous one.
+  let url = "http://api.openweathermap.org/data/2.5/weather?q="+randomLocation+"&units=metric&appid="+apiKey; //Source of the apiKey.
+  weather = loadJSON(url);
+}
+
+function setup() {
+
+
+console.log("Location: " + randomLocation) //Show the location we are searching
+console.log("Pressure: " + weather.main.pressure); //Pressure
+
+  var canvas = createCanvas (1280, 720);
+ canvas.parent("canvasContainer");
+  textAlign(LEFT);
+  textSize(40);
+  fill(255);
+  /*
+  sel = createSelect();
+
+
+  sel.size(100, 50);
+  sel.position(150, 135);
+  sel.option('select');
+  sel.option('Plymouth, GB');
+  sel.option('Soorts-Hossegor, FR');
+  sel.option('Peniche, PT');
+  sel.option('Gold Coast, AU');
+  sel.changed(changeData);
+  */
+
+  for (let i=weather.main.pressure; i<weather.main.pressure; i++){
+    console.log(weather.heights[i].pressure * 600); //Return all JSON data
+    let makeSize = weather.heights[i].pressure * 600;
+    beginShape();
+    ellipse(random(200), random(200), 200, 200);
   }
 
-  function keyPressed() {
+  noLoop();
+}
 
-     clear(); // this function clears the background when a button is pressed.
+var noiseScale=0.005;
 
+function draw(){
+  for (var x=2; x < width; x++) {
+    var noiseVal = noise((weather.main.pressure+x)*noiseScale, mouseY*noiseScale); //size of noise depeding on
+    stroke(noiseVal*77, noiseVal*129, noiseVal*227); //wave fill
+    line(x, mouseY+noiseVal*600, x, height);
+    fill('rgba([179, 255, 179], 0.2)'); //text fill
+    text("Location: " + randomLocation, 50, 600);
+    text("The Wind pressure " + weather.main.pressure + " hba", 50, 650); //Text of wind pressure and data of it in hba.
   }
-
-function draw () {
-
-  var yoff = 0;
-  for (var y = 0; y < rows; y++) {
-    var xoff = 0;
-    for (var x = 0; x < cols; x++) { //this creates the movement of the flowfield by using the z axis.
-      var index = ( x + y * cols);
-      var angle = noise(xoff, yoff, zoff) * TWO_PI * 2;
-      var v = p5.Vector.fromAngle(angle); //this creates a vector from an angle.
-      v.setMag(20); //the magititude is the distance between the flow of the strokes and what makes the pattern.
-      flowfield[index] = v;
-      xoff += inc;
-
-
-      if (mouseIsPressed) {
-        r = random(255);
-        g = random(255);
-        b = random(255);
-
-
-  }
-      stroke(r, g, b, 120);
-      //strokeWeight(2);
-      //push();
-      //translate(x * scl, y * scl);
-      //rotate(v.heading());
-      //line(0,0, scl, 0);
-      //pop(); //these determine the stroke, angle and flow of the patterns.
-    }
-    yoff += inc;
-
-    zoff += 0.0002; //zoff makes sures the particles stay in between the noise.
-  }
-
-    for (var i = 0; i < particles.length; i++) {
-
-    particles[i].follow(flowfield);
-    particles[i].update();
-    particles[i].edges();
-    particles[i].show(); //this is for all particles to make sure they keep in the canvas and that keep flowing.
-
-  }
-
-    fr.html(floor(frameRate())); //this shows the frame rate of which the interface is doing.
-
 }

@@ -1,11 +1,12 @@
 
 
+
 body {
- font-family: arial, sans-serif;
+ font-family: verdana, sans-serif;
  font-style: normal;
  margin: 0;
  padding: 0;
-} 
+}
 
 header{
   background-color: rgb(74, 75, 76);
@@ -25,7 +26,7 @@ p{
 
 #canvasContainer{
   margin: 0px auto;
-  width: 594px;
+  width: 1200px;
 
 }
 
