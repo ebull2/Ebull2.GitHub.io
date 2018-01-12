@@ -24,7 +24,7 @@ var yvalues;  // Using an array to store height values for the wave
 function preload() {
   //randomLocation stores just one city that is returned from the locationArray
   randomLocation = locationArray[round(random(locationArray.length-1))]; //This will return the location back to it's previous one.
-  let url = "http://api.openweathermap.org/data/2.5/weather?q="+randomLocation+"&units=metric&appid="+apiKey; //Source of the apiKey.
+  let url = "https://api.openweathermap.org/data/2.5/weather?q="+randomLocation+"&units=metric&appid="+apiKey; //Source of the apiKey.
   weather = loadJSON(url);
 }
 
