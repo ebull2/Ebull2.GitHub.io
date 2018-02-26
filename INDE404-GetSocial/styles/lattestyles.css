@@ -1,0 +1,22 @@
+
+*
+
+{
+	margin: 0;
+	padding:0;
+	box-sizing; border-box;
+}
+
+body{
+font-family: 'lato', 'arial';
+font-size: 24px;
+}
+
+
+h2
+{
+position: absolute;
+font-family: 'lobster';
+font-size: 400%;
+
+}
