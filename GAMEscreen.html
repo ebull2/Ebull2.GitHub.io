@@ -9,35 +9,68 @@
   <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+ <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   <link href="css/styles.css" rel="stylesheet">
   </head>
   <body>
 
-<div class="header">
 
-<div class="shape-left">
-    <div id="square"></div>
-  <div id="triangle-topleft"></div>
-</div>
-
-
-<div class="icon">
-  <a href="RankScreen.html"><img src="assets/greenICON.png" height="50px" width="50px"></a>
-</div>
-
-    <div class="small-logo">
-      <img src="assets/niddel-4.png" height="100px" width="120px">
+  <div class="container-fluid header">
+    <div class="row">
+      <div class="w-100">
+        <div class="col-lg-6 col-md-6">
+          <div class="shape-left">
+            <div id="square"></div>
+            <div id="triangle-topleft"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-auto col-md-auto col-xs-auto">
+          <div class="d-flex inline-block align-top justify-content-end float-right fixed-top icon">
+            <a href="RankScreen.html"><img src="assets/greenICON.png" class="img-fluid" height="50px" width="50px"></a>
+          </div>
+        </div>
     </div>
-
-<div class="shape-right">
-  <div id="triangle-topright"></div>
-  <div id="square"></div>
+  </div>
+</div>
+      <div class="row">
+        <div class="col-lg-auto col-md-auto col-xs-auto">
+          <div class="d-flex logo justify-content-center fixed-top">
+            <img src="assets/niddel-4.png" class="img-responsive" height="100px" width="120px">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="w-100">
+        <div class="col-lg-auto col-md-auto col-xs-auto">
+          <div class="shape-right d-flex fixed-top justify-content-end float-right">
+            <div id="triangle-topright"></div>
+            <div id="square"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
-</div>
 
+      <div class="container">
+        <div class="w-100">
+          <div class="d-flex justify-content-center heading-text">
+            <h1>Where's your niche spot?</h1>
+          </div>
+        </div>
+      </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="w-100">
+          <div class="col-lg-auto col-md-auto">
+            <div class="d-flex sjustify-content-center align-items-center">
     <div id="map"></div>
     <script>
 
@@ -54,74 +87,61 @@
         google.maps.Map(document.getElementById('map'), options);
 
 
-        //Listen for click on map
-        google.maps.event.addListener(map, 'click',
-        function(event){
-          //Add marker
-          addMarker({coords:event.latLng});
+        //Marker clicker
+        google.maps.event.addListener(map, 'click', function(event) {
+          placeMarker(map, event.latLng);
         });
 
+        function placeMarker(map, location) {
+          var marker = new google.maps.Marker({
+            position: location,
+            map: map
+          });
 
-        // var marker = new google.maps.Marker({
-        //
-        //   position: {lat: 50.376289, lng: -4.143841},
-        //   map: map
-        //
-        //   });
-        //
-        //   var infoWindow = new google.maps.InfoWindow({
-        //     content: '<h1>Plymouth</h1>'
-        //
-        //     });
-        //
-        //     marker.addListener('click', function(){
-        //
-        //       infoWindow.open(map, marker);
-        //     });
+          var rad = function(x) {
+  return x * Math.PI / 180;
+};
 
-            //array of markers
-            var markers = [
-            {
-              coords:{lat: 50.376289, lng: -4.143841},
-              content: '<h1>Plymouth</h1>'
-            },
+var getDistance = function(p1, p2) {
+  var R = 6378137; // Earth’s mean radius in meter
+  var dLat = rad(p2.lat() - p1.lat());
+  var dLong = rad(p2.lng() - p1.lng());
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
+    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d; // returns the distance in meter
+};
 
-            {
-                coords:{lat: 50.41563, lng: -5.07521},
-                content: '<h1>Newquay</h1>'
-              },
-
-              {
-                coords:{lat: 51.50583, lng: -3.57722},
-                content: '<h1>Bridgend</h1>'
-              }
-
-            ];
-
-              //loop through markers
-              for(i = 0; i < markers.length;i++){
-                //Add marker
-                addMarker(markers[i]);
-              }
-
-
-
-          //add marker function
-
-          function addMarker(coords){
-
-            var marker = new google.maps.Marker({
-
-              position: coords,
-              map: map
-
-              });
-            }
-
-           }
+            infowindow.open(map,marker);
+          }
+        }
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOL1vi59qcvshHJ8XM3wneBldXF4cCnrc&callback=initMap"async defer></script>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+    <div class="container-fluid">
+      <div class="row">
+    <div class="w-100">
+      <div class="col-lg-auto col-md-auto">
+        <div class="footer float-left fixed-bottom d-flex flex-wrap justify-content-start ">
+    <div id="percentCount" class="percent-count">10%</div>
+    <div class="progress-bar"></script>
+      <div class="progress" id="progress"></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
 
 
 
